@@ -1,7 +1,7 @@
+import Post from "@/components/Post";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Post from "../components/Post";
 
 const PostPage = () => {
   const router = useRouter();
@@ -13,10 +13,10 @@ const PostPage = () => {
       axios
         .get(`/api/posts/${id}`)
         .then((response) => {
-          setPost(response.data);
+          setPost(response.data.data);
         })
         .catch((error) => {
-          console.error("Error fetching post:", error);
+          console.error("Error fetching post", error);
         });
     }
   }, [id]);

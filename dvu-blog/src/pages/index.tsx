@@ -1,18 +1,18 @@
+import PostList from "@/components/PostList";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import PostList from "../components/PostList";
 
-const Home = () => {
+const IndexPage = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     axios
       .get("/api/posts")
       .then((response) => {
-        setPosts(response.data);
+        setPosts(response.data.data);
       })
       .catch((error) => {
-        console.error("Error fetching posts:", error);
+        console.error("Error fetching posts", error);
       });
   }, []);
 
@@ -24,4 +24,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default IndexPage;

@@ -5,7 +5,6 @@ const Header = () => {
     <header>
       <nav>
         <Link href="/">Home</Link>
-        <Link href="/about">About</Link>
       </nav>
       <style jsx>{`
         header {
