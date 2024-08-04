@@ -19,6 +19,13 @@ Remove node_modules and rebuild dependencies:
 Then: `npm install`
 
 
-# Dependencies:
+# Dependencies: 
+-- (all handled in package.json)
 npx create-next-app@latest dvu-blog --typescript
 npm install axios 
+
+mongoDB :
+npm install mongoose
+
+connection string local env:
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/yourdbname?retryWrites=true&w=majority  
