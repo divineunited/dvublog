@@ -16,6 +16,7 @@ export default async function handler(
         const posts = await Post.find({});
         res.status(200).json({ success: true, data: posts });
       } catch (error) {
+        console.error("Error fetching posts:", error);
         res.status(400).json({ success: false });
       }
       break;
@@ -24,6 +25,7 @@ export default async function handler(
         const post = await Post.create(req.body);
         res.status(201).json({ success: true, data: post });
       } catch (error) {
+        console.error("Error creating post:", error);
         res.status(400).json({ success: false });
       }
       break;

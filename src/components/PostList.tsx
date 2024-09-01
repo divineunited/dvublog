@@ -3,13 +3,13 @@ import Link from "next/link";
 const PostList = ({
   posts,
 }: {
-  posts: Array<{ id: string; title: string }>;
+  posts: Array<{ _id: string; title: string }>;
 }) => {
   return (
     <ul>
       {posts.map((post) => (
-        <li key={post.id}>
-          <Link href={`/${post.id}`}>{post.title}</Link>
+        <li key={post._id}>
+          <Link href={`/${post._id}`}>{post.title}</Link>
         </li>
       ))}
       <style jsx>{`

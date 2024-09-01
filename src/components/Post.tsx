@@ -7,16 +7,9 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ post }) => {
   return (
-    <article>
+    <article className="post-container">
       <h1>{post.title}</h1>
-      <p>{post.content}</p>
-      <style jsx>{`
-        article {
-          padding: 20px;
-          border: 1px solid #ddd;
-          margin: 20px 0;
-        }
-      `}</style>
+      <p className="post-content">{post.content}</p>
     </article>
   );
 };

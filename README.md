@@ -46,8 +46,29 @@ brew services stop mongodb/brew/mongodb-community
 within your .env.local, add:
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/yourdbname?retryWrites=true&w=majority  
 
-Update Your Mongoose Connection Code in .env.local for local testing: MONGODB_URI=mongodb://localhost:27017/blogs
+Update Your Mongoose Connection Code in .env.local for local testing: MONGODB_URI=mongodb://localhost:27017/posts
 Test to make sure the connection is good and have your dev environment running and visit: http://localhost:3000/api/testConnection
+
+
+# Creating Posts using Curl
+
+To test POST requests to the /api/posts endpoint:
+```
+curl -X POST http://localhost:3000/api/posts \
+-H "Content-Type: application/json" \
+-d '{
+  "title": "Test Post",
+  "content": "This is a test post.",
+  "summary": "This is the summary of the test post."
+}'
+```
+
+Ensure they exist by querying the DB:
+```
+mongosh
+use posts
+db.posts.find().pretty()
+```
 
 
 # Dependencies: 
