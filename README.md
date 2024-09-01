@@ -4,6 +4,9 @@ A blog safe space for everyone.
 
 # Useful Commands:
 
+First ensure you have node and npm installed (node -v / npm -v to check):
+https://nodejs.org/en/download/package-manager
+
 npm run dev
     Starts the development server.
 
