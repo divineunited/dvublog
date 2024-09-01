@@ -1,4 +1,11 @@
-const Post = ({ post }) => {
+interface PostProps {
+  post: {
+    title: string;
+    content: string;
+  };
+}
+
+const Post: React.FC<PostProps> = ({ post }) => {
   return (
     <article>
       <h1>{post.title}</h1>

@@ -17,7 +17,7 @@ const IndexPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <h1>Divine United - Engineering Life</h1>
       <PostList posts={posts} />
     </div>
