@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+declare global {
+  var mongoose: { conn: any; promise: any } | undefined;
+}
+
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
@@ -15,6 +19,10 @@ if (!cached) {
 }
 
 async function connectToDatabase() {
+  if (!cached) {
+    throw new Error("MongoDB connection not initialized");
+  }
+
   if (cached.conn) {
     return cached.conn;
   }
@@ -26,9 +34,11 @@ async function connectToDatabase() {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
+    cached.promise = mongoose
+      .connect(MONGODB_URI as string, opts)
+      .then((mongoose) => {
+        return mongoose;
+      });
   }
   cached.conn = await cached.promise;
   return cached.conn;
