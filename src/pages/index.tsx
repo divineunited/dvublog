@@ -18,7 +18,7 @@ const IndexPage = () => {
 
   return (
     <div className="container">
-      <h1>Welcome to the Blogosphere</h1>
+      <h1>Welcome to Cheries Art Wonderland</h1>
       <PostList posts={posts} />
     </div>
   );
