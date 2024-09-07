@@ -17,20 +17,20 @@ const PostList = ({
         <li key={post._id} className="post-list-item">
           {post.primaryImage && (
             <Link href={`/posts/${post._id}`}>
-              <Image
-                src={post.primaryImage}
-                alt={post.title}
-                className="post-image"
-                layout="responsive"
-                width={500}
-                height={300}
-              />
+              <div className="post-image-container">
+                <Image
+                  src={post.primaryImage}
+                  alt={post.title}
+                  className="post-image"
+                  layout="fill"
+                />
+              </div>
             </Link>
           )}
           <Link href={`/posts/${post._id}`} className="post-link">
             {post.title}
           </Link>
-          <p>{post.summary}</p>
+          <p className="post-summary">{post.summary}</p>
         </li>
       ))}
     </ul>
