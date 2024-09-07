@@ -25,7 +25,7 @@ const PostList = ({
               height={300}
             />
           )}
-          <Link href={`/${post._id}`} className="post-link">
+          <Link href={`/posts/${post._id}`} className="post-link">
             {post.title}
           </Link>
           <p>{post.summary}</p>

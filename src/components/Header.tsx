@@ -5,6 +5,7 @@ const Header = () => {
     <header className="header">
       <nav className="nav">
         <Link href="/">Home</Link>
+        <Link href="/create-post">Create a New Post</Link>
       </nav>
     </header>
   );
