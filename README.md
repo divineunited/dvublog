@@ -76,3 +76,5 @@ npx create-next-app@latest dvu-blog --typescript
 npm install axios 
 npm install mongoose
 npm install formik yup
+npm install multer
+npm i uuid

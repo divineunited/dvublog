@@ -16,14 +16,16 @@ const PostList = ({
       {posts.map((post) => (
         <li key={post._id} className="post-list-item">
           {post.primaryImage && (
-            <Image
-              src={post.primaryImage}
-              alt={post.title}
-              className="post-image"
-              layout="responsive"
-              width={500}
-              height={300}
-            />
+            <Link href={`/posts/${post._id}`}>
+              <Image
+                src={post.primaryImage}
+                alt={post.title}
+                className="post-image"
+                layout="responsive"
+                width={500}
+                height={300}
+              />
+            </Link>
           )}
           <Link href={`/posts/${post._id}`} className="post-link">
             {post.title}

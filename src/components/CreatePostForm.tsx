@@ -7,17 +7,17 @@ interface FormValues {
   title: string;
   summary: string;
   content: string;
-  primaryImage: string;
+  primaryImage: File | null;
 }
 
 const CreatePostForm = () => {
   const router = useRouter();
 
-  const initialValues = {
+  const initialValues: FormValues = {
     title: "",
     summary: "",
     content: "",
-    primaryImage: "",
+    primaryImage: null,
   };
 
   const validationSchema = Yup.object({
@@ -26,15 +26,27 @@ const CreatePostForm = () => {
       .required("Please provide a title for this post."),
     summary: Yup.string().required("Please provide a summary for this post."),
     content: Yup.string().required("Please provide content for this post."),
-    primaryImage: Yup.string().url("Please provide a valid URL"),
+    primaryImage: Yup.mixed().nullable(),
   });
 
   const handleSubmit = async (
     values: FormValues,
     { setSubmitting, resetForm, setStatus }: FormikHelpers<FormValues>
   ) => {
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("summary", values.summary);
+    formData.append("content", values.content);
+    if (values.primaryImage) {
+      formData.append("primaryImage", values.primaryImage);
+    }
+
     try {
-      const response = await axios.post("/api/posts", values);
+      const response = await axios.post("/api/posts", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (response.data.success) {
         resetForm();
@@ -56,7 +68,7 @@ const CreatePostForm = () => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, status }) => (
+      {({ isSubmitting, status, setFieldValue }) => (
         <Form className="create-post-form">
           {status && status.error && <p className="error">{status.error}</p>}
           <div>
@@ -75,8 +87,18 @@ const CreatePostForm = () => {
             <ErrorMessage name="content" component="div" className="error" />
           </div>
           <div>
-            <label htmlFor="primaryImage">Primary Image URL</label>
-            <Field type="text" name="primaryImage" />
+            <label htmlFor="primaryImage">Primary Image</label>
+            <input
+              id="primaryImage"
+              name="primaryImage"
+              type="file"
+              accept="image/jpeg, image/png"
+              onChange={(event) => {
+                if (event.currentTarget.files && event.currentTarget.files[0]) {
+                  setFieldValue("primaryImage", event.currentTarget.files[0]);
+                }
+              }}
+            />
             <ErrorMessage
               name="primaryImage"
               component="div"

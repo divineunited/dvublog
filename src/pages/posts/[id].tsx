@@ -6,7 +6,11 @@ import { useEffect, useState } from "react";
 const PostPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState<{
+    title: string;
+    content: string;
+    primaryImage?: string;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null); // Explicitly type error
 
   useEffect(() => {

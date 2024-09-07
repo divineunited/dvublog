@@ -73,6 +73,7 @@ h1 {
   background-color: #b1d8ff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  margin-top: 16px;
 }
 
 .post-link:hover {
