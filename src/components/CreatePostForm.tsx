@@ -49,7 +49,6 @@ const CreatePostForm = () => {
       });
 
       if (response.data.success) {
-        resetForm();
         router.push(`/success?postId=${response.data.data._id}`);
       } else {
         setStatus({ error: "Failed to create post." });
