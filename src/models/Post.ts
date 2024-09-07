@@ -14,6 +14,10 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide content for this post."],
   },
+  primaryImage: {
+    type: String,
+    required: false,
+  },
 });
 
 export default mongoose.models.Post || mongoose.model("Post", PostSchema);
