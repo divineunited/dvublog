@@ -28,9 +28,6 @@ const PostSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Delete the model if it exists
-mongoose.models = {};
-
-const Post = mongoose.model("Post", PostSchema);
+const Post = mongoose.models.Post || mongoose.model("Post", PostSchema);
 
 export default Post;
