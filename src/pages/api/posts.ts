@@ -74,6 +74,14 @@ export default async function handler(
         await runMiddleware(req, res, uploadMiddleware);
 
         const { title, summary, content } = req.body;
+
+        // Server-side validation
+        if (!title || !summary || !content) {
+          return res
+            .status(400)
+            .json({ success: false, message: "Missing required fields" });
+        }
+
         const primaryImage = req.file ? `/uploads/${req.file.filename}` : "";
 
         const newPost = new Post({
