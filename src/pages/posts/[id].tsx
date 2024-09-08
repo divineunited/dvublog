@@ -16,7 +16,7 @@ const PostPage = () => {
   useEffect(() => {
     if (id) {
       axios
-        .get(`/api/${id}`)
+        .get(`/api/posts/${id}`)
         .then((response) => {
           setPost(response.data.data);
         })

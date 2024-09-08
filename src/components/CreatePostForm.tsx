@@ -31,7 +31,7 @@ const CreatePostForm = () => {
 
   const handleSubmit = async (
     values: FormValues,
-    { setSubmitting, resetForm, setStatus }: FormikHelpers<FormValues>
+    { setSubmitting, setStatus }: FormikHelpers<FormValues>
   ) => {
     const formData = new FormData();
     formData.append("title", values.title);
@@ -41,10 +41,18 @@ const CreatePostForm = () => {
       formData.append("primaryImage", values.primaryImage);
     }
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setStatus({ error: "You must be logged in to create a post." });
+      setSubmitting(false);
+      return;
+    }
+
     try {
       const response = await axios.post("/api/posts", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -55,7 +63,13 @@ const CreatePostForm = () => {
       }
     } catch (error) {
       console.error("Error creating post:", error);
-      setStatus({ error: "An error occurred while creating the post." });
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        setStatus({ error: "Unauthorized. Please log in again." });
+        // Optionally, you can redirect to the login page here
+        // router.push('/login');
+      } else {
+        setStatus({ error: "An error occurred while creating the post." });
+      }
     } finally {
       setSubmitting(false);
     }

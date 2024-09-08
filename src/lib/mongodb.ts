@@ -34,6 +34,8 @@ async function connectToDatabase() {
       bufferCommands: false,
     };
 
+    mongoose.models = {}; // Clear Mongoose's model cache
+
     cached.promise = mongoose
       .connect(MONGODB_URI as string, opts)
       .then((mongoose) => {

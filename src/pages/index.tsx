@@ -1,25 +1,17 @@
-import PostList from "@/components/PostList";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const IndexPage = () => {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("/api/posts")
-      .then((response) => {
-        setPosts(response.data.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching posts", error);
-      });
-  }, []);
-
   return (
     <div className="container">
-      <h1>Welcome to Cheries Art Wonderland</h1>
-      <PostList posts={posts} />
+      <h1>Welcome to The Creative Entrypoint</h1>
+      <div className="cta-container">
+        <Link href="/register" className="cta-button">
+          Register
+        </Link>
+        <Link href="/login" className="cta-button">
+          Login
+        </Link>
+      </div>
     </div>
   );
 };

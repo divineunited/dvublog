@@ -1,3 +1,4 @@
+import { verifyToken } from "@/lib/auth";
 import connectToDatabase from "@/lib/mongodb";
 import Post from "@/models/Post";
 import multer from "multer";
@@ -52,7 +53,9 @@ export default async function handler(
   switch (req.method) {
     case "GET":
       try {
-        const posts = await Post.find({});
+        const posts = await Post.find({})
+          .sort({ createdAt: -1 })
+          .populate("author", "username");
         res.status(200).json({ success: true, data: posts });
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -61,6 +64,13 @@ export default async function handler(
       break;
     case "POST":
       try {
+        const user = await verifyToken(req);
+        if (!user) {
+          return res
+            .status(401)
+            .json({ success: false, message: "Unauthorized" });
+        }
+
         await runMiddleware(req, res, uploadMiddleware);
 
         const { title, summary, content } = req.body;
@@ -71,6 +81,7 @@ export default async function handler(
           summary,
           content,
           primaryImage,
+          author: user._id,
         });
 
         await newPost.save();

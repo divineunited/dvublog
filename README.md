@@ -78,3 +78,8 @@ npm install mongoose
 npm install formik yup
 npm install multer
 npm i uuid
+
+
+# Env Variables Needed:
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/yourdbname?retryWrites=true&w=majority  
+JWT_SECRET=your_secret_key_here
