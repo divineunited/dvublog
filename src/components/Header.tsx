@@ -6,10 +6,13 @@ const Header = () => {
   const { isLoggedIn, username, logout } = useAuth();
   const router = useRouter();
 
-  const handleLogout = () => {
+  const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     logout();
     router.push("/");
   };
+
+  const isIndexPage = router.pathname === "/";
 
   return (
     <header className="header">
@@ -18,13 +21,17 @@ const Header = () => {
           <>
             <Link href={`/${username}`}>Home</Link>
             <Link href="/create-post">Create Post</Link>
-            <button onClick={handleLogout}>Logout</button>
+            <a href="#" onClick={handleLogout}>
+              Logout
+            </a>
           </>
         ) : (
           <>
-            <Link href="/">Home</Link>
-            <Link href="/login">Login</Link>
-            <Link href="/register">Register</Link>
+            {!isIndexPage && (
+              <>
+                <Link href="/">Home</Link>
+              </>
+            )}
           </>
         )}
       </nav>

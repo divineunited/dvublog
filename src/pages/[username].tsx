@@ -1,5 +1,6 @@
 import PostList from "@/components/PostList";
 import axios from "axios";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -51,12 +52,18 @@ const UserProfilePage = () => {
 
   return (
     <div className="container">
-      <h1>{username}&apos;s Profile</h1>
-      {posts.length > 0 ? <PostList posts={posts} /> : <p>No posts yet.</p>}
-      {isOwnProfile && (
-        <button onClick={() => router.push("/create-post")}>
-          Create New Post
-        </button>
+      <h1>Explore {username}&apos;s Corner</h1>
+      {posts.length > 0 ? (
+        <PostList posts={posts} />
+      ) : (
+        <>
+          <p>No posts yet</p>
+          {isOwnProfile && (
+            <Link href="/create-post" className="post-link">
+              Create Your First Post
+            </Link>
+          )}
+        </>
       )}
     </div>
   );
