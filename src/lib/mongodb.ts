@@ -29,20 +29,32 @@ async function connectToDatabase() {
 
   if (!cached.promise) {
     const opts = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       bufferCommands: false,
+      serverApi: {
+        version: "1",
+        strict: true,
+        deprecationErrors: true,
+      },
     };
 
     mongoose.models = {}; // Clear Mongoose's model cache
 
-    cached.promise = mongoose
-      .connect(MONGODB_URI as string, opts)
-      .then((mongoose) => {
-        return mongoose;
-      });
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      console.log("Connected to MongoDB successfully!");
+      return mongoose;
+    });
   }
-  cached.conn = await cached.promise;
+
+  try {
+    cached.conn = await cached.promise;
+    // Test the connection
+    await cached.conn.connection.db.admin().ping();
+    console.log("Pinged your deployment. Connection is working.");
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+    throw error;
+  }
+
   return cached.conn;
 }
 
