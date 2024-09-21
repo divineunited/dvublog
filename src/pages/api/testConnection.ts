@@ -11,8 +11,9 @@ export default async function handler(
     res.status(200).json({ message: "Database connection successful" });
   } catch (error) {
     console.error("Database connection failed:", error);
-    res
-      .status(500)
-      .json({ message: "Database connection failed", error: error.message });
+    res.status(500).json({
+      message: "Database connection failed",
+      error: (error as any).message,
+    });
   }
 }

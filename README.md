@@ -79,8 +79,16 @@ npm install mongodb
 npm install formik yup
 npm install multer
 npm i uuid
+npm install @google-cloud/secret-manager
 
 
 # Env Variables Needed:
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/yourdbname?retryWrites=true&w=majority  
 JWT_SECRET=your_secret_key_here
+
+# Deploying to production:
+Create a production build:
+`npm run build`
+
+Deploy to GCP:
+`gcloud app deploy`

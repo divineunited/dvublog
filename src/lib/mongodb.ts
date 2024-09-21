@@ -31,13 +31,20 @@ async function connectToDatabase() {
     const opts = {
       bufferCommands: false,
       serverApi: {
-        version: "1",
+        version: "1" as const,
         strict: true,
         deprecationErrors: true,
       },
     };
 
-    mongoose.models = {}; // Clear Mongoose's model cache
+    // Clear Mongoose's model cache
+    Object.keys(mongoose.models).forEach((key) => {
+      delete mongoose.models[key];
+    });
+
+    if (typeof MONGODB_URI !== "string") {
+      throw new Error("MONGODB_URI must be a string");
+    }
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       console.log("Connected to MongoDB successfully!");
