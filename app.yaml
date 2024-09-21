@@ -1,7 +1,7 @@
 runtime: nodejs18
 env_variables:
   NODE_ENV: 'production'
-entrypoint: node -r ./loadSecrets.js ./node_modules/.bin/next start
+entrypoint: node -r ./loadSecrets.mjs ./node_modules/.bin/next start
 handlers:
   - url: /.*
     script: auto

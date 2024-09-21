@@ -1,20 +1,16 @@
-const loadSecrets = require('./loadSecrets');
+import { loadSecrets } from './loadSecrets.mjs';
 
-async function getConfig() {
-  await loadSecrets();
+await loadSecrets();
 
-  /** @type {import('next').NextConfig} */
-  const nextConfig = {
-    images: {
-      domains: ['storage.googleapis.com'],
-    },
-    env: {
-      MONGODB_URI: process.env.MONGODB_URI,
-      JWT_SECRET: process.env.JWT_SECRET,
-    },
-  };
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: ['storage.googleapis.com'],
+  },
+  env: {
+    MONGODB_URI: process.env.MONGODB_URI,
+    JWT_SECRET: process.env.JWT_SECRET,
+  },
+};
 
-  return nextConfig;
-}
-
-module.exports = getConfig();
+export default nextConfig;
