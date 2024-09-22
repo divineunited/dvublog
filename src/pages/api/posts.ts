@@ -1,6 +1,7 @@
 import { verifyToken } from "@/lib/auth";
 import connectToDatabase from "@/lib/mongodb";
 import Post from "@/models/Post";
+import { Storage } from "@google-cloud/storage";
 import multer from "multer";
 import { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
@@ -11,13 +12,19 @@ interface NextApiRequestWithFile extends NextApiRequest {
   file?: Express.Multer.File;
 }
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const storage = isProduction
+  ? multer.memoryStorage()
+  : multer.diskStorage({
+      destination: "./public/uploads",
+      filename: (req, file, cb) => {
+        cb(null, `${uuidv4()}${path.extname(file.originalname)}`);
+      },
+    });
+
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: "./public/uploads",
-    filename: (req, file, cb) => {
-      cb(null, `${uuidv4()}${path.extname(file.originalname)}`);
-    },
-  }),
+  storage,
   fileFilter: (req, file, cb) => {
     if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
       cb(null, true);
@@ -82,7 +89,15 @@ export default async function handler(
             .json({ success: false, message: "Missing required fields" });
         }
 
-        const primaryImage = req.file ? `/uploads/${req.file.filename}` : "";
+        let primaryImage = "";
+        if (req.file) {
+          if (isProduction) {
+            primaryImage = await uploadToCloudStorage(req.file);
+          } else {
+            // Local development: use the local file path
+            primaryImage = `/uploads/${req.file.filename}`;
+          }
+        }
 
         const newPost = new Post({
           title,
@@ -96,7 +111,13 @@ export default async function handler(
         res.status(201).json({ success: true, data: newPost });
       } catch (error) {
         console.error("Error creating post:", error);
-        res.status(400).json({ success: false });
+        res.status(400).json({
+          success: false,
+          error:
+            error instanceof Error
+              ? error.message
+              : "An unknown error occurred",
+        });
       }
       break;
     default:
@@ -112,3 +133,32 @@ export const config = {
     bodyParser: false,
   },
 };
+
+async function uploadToCloudStorage(
+  file: Express.Multer.File
+): Promise<string> {
+  const storage = new Storage();
+  const bucket = storage.bucket(process.env.GCS_BUCKET_NAME as string);
+  const fileName = `${uuidv4()}-${file.originalname}`;
+  const fileUpload = bucket.file(fileName);
+
+  const stream = fileUpload.createWriteStream({
+    metadata: {
+      contentType: file.mimetype,
+    },
+    resumable: false,
+  });
+
+  return new Promise((resolve, reject) => {
+    stream.on("error", (error) => {
+      reject(error);
+    });
+
+    stream.on("finish", () => {
+      const publicUrl = `https://storage.googleapis.com/${process.env.GCS_BUCKET_NAME}/${fileName}`;
+      resolve(publicUrl);
+    });
+
+    stream.end(file.buffer);
+  });
+}
