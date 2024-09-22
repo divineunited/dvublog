@@ -10,6 +10,10 @@ const handle = app.getRequestHandler();
 async function start() {
   try {
     await loadSecrets();
+
+    // Explicitly set MONGODB_URI in process.env
+    process.env.MONGODB_URI = process.env.MONGODB_URI;
+
     await app.prepare();
 
     createServer((req, res) => {

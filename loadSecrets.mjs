@@ -16,4 +16,5 @@ export async function loadSecrets() {
   for (const [key, secretName] of Object.entries(secrets)) {
     process.env[key] = await accessSecretVersion(secretName);
   }
+  
 }

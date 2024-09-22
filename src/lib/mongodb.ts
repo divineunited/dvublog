@@ -1,15 +1,19 @@
 import mongoose from "mongoose";
+import getConfig from "next/config";
+
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
 declare global {
   var mongoose: { conn: any; promise: any } | undefined;
 }
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI =
+  serverRuntimeConfig.MONGODB_URI ||
+  publicRuntimeConfig.MONGODB_URI ||
+  process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
-  );
+  throw new Error("Please define the MONGODB_URI environment variable");
 }
 
 let cached = global.mongoose;
@@ -37,15 +41,6 @@ async function connectToDatabase() {
       },
     };
 
-    // Clear Mongoose's model cache
-    Object.keys(mongoose.models).forEach((key) => {
-      delete mongoose.models[key];
-    });
-
-    if (typeof MONGODB_URI !== "string") {
-      throw new Error("MONGODB_URI must be a string");
-    }
-
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       console.log("Connected to MongoDB successfully!");
       return mongoose;
@@ -54,9 +49,6 @@ async function connectToDatabase() {
 
   try {
     cached.conn = await cached.promise;
-    // Test the connection
-    await cached.conn.connection.db.admin().ping();
-    console.log("Pinged your deployment. Connection is working.");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
     throw error;
