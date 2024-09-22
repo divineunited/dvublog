@@ -1,7 +1,3 @@
-import { loadSecrets } from './loadSecrets.mjs';
-
-await loadSecrets();
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
