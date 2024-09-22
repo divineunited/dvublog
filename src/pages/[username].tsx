@@ -2,7 +2,7 @@ import PostList from "@/components/PostList";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const UserProfilePage = () => {
   const [posts, setPosts] = useState([]);
@@ -12,14 +12,7 @@ const UserProfilePage = () => {
   const router = useRouter();
   const { username } = router.query;
 
-  useEffect(() => {
-    if (username) {
-      fetchPosts();
-      checkAuthentication();
-    }
-  }, [username]);
-
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     try {
       const response = await axios.get(`/api/${username}`);
       setPosts(response.data.data);
@@ -33,9 +26,9 @@ const UserProfilePage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [username]);
 
-  const checkAuthentication = () => {
+  const checkAuthentication = useCallback(() => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
@@ -45,7 +38,14 @@ const UserProfilePage = () => {
         console.error("Error decoding token", error);
       }
     }
-  };
+  }, [username]);
+
+  useEffect(() => {
+    if (username) {
+      fetchPosts();
+      checkAuthentication();
+    }
+  }, [username, fetchPosts, checkAuthentication]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
