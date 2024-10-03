@@ -8,6 +8,12 @@ const nextConfig = {
         port: '',
         pathname: '/dvunitedblog-images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'carrotghost.net',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   env: {
