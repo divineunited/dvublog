@@ -5,6 +5,7 @@ import { Storage } from "@google-cloud/storage";
 import multer from "multer";
 import { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
+import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 
 // Extend NextApiRequest to include file property
@@ -142,9 +143,20 @@ async function uploadToCloudStorage(
   const fileName = `${uuidv4()}-${file.originalname}`;
   const fileUpload = bucket.file(fileName);
 
+  // Optimize image before upload
+  const optimizedBuffer = await sharp(file.buffer)
+    .resize(1920, null, {
+      // Max width 1920px, maintain aspect ratio
+      withoutEnlargement: true,
+      fit: "inside",
+    })
+    .jpeg({ quality: 80 }) // Compress as JPEG
+    .toBuffer();
+
   const stream = fileUpload.createWriteStream({
     metadata: {
-      contentType: file.mimetype,
+      contentType: "image/jpeg", // Force JPEG
+      cacheControl: "public, max-age=31536000", // Cache for 1 year
     },
     resumable: false,
   });
@@ -159,6 +171,6 @@ async function uploadToCloudStorage(
       resolve(publicUrl);
     });
 
-    stream.end(file.buffer);
+    stream.end(optimizedBuffer); // Use optimized buffer
   });
 }
