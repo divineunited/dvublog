@@ -33,11 +33,6 @@ const PostSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-let Post;
-try {
-  Post = mongoose.models?.Post || mongoose.model("Post", PostSchema);
-} catch (error) {
-  Post = mongoose.model("Post", PostSchema);
-}
+const Post = mongoose.models?.Post || mongoose.model("Post", PostSchema);
 
 export default Post;
