@@ -7,6 +7,17 @@ const SuccessPage = () => {
   const { postId } = router.query;
   const { username } = useAuth();
 
+  if (!username || !postId) {
+    return (
+      <div className="container">
+        <div className="content-wrapper">
+          <h1>Post Created Successfully!</h1>
+          <p>Loading post details...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
       <div className="content-wrapper">
