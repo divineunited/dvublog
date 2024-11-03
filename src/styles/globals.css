@@ -29,39 +29,41 @@ a:hover {
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 70vh;
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  margin-top: 60px;
   text-align: center;
 }
 
 .title {
-  font-size: 32px;
-  color: #2c3e50;
+  font-size: 2.5rem;
   margin-bottom: 2rem;
+  color: #2c3e50;
 }
 
 .cta-container {
   display: flex;
   gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
 .cta-button {
-  padding: 12px 24px;
-  font-size: 18px;
-  font-weight: 500;
-  text-decoration: none;
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1rem;
   color: white;
-  background-color: #3498db;
-  border-radius: 8px;
-  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background: #3498db;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
 }
 
 .cta-button:hover {
-  background-color: #2980b9;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: #2980b9;
 }
 
 .post-list {
@@ -69,6 +71,7 @@ a:hover {
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 16px;
   padding: 0;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -146,7 +149,13 @@ a:hover {
 }
 
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   padding: 16px 24px;
+  height: 60px;
   background: linear-gradient(to right, #2c3e50, #3498db);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -171,11 +180,13 @@ a:hover {
 }
 
 .footer {
-  padding: 24px;
+  width: 100%;
+  padding: 16px 24px;
   background: linear-gradient(to right, #2c3e50, #3498db);
   color: white;
   text-align: center;
   font-size: 14px;
+  margin-top: auto;
 }
 
 .footer-text {
@@ -252,20 +263,17 @@ a:hover {
 
 .view-post-link {
   display: inline-block;
-  margin: 20px auto;
-  padding: 10px 20px;
-  background-color: #3498db;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #3498db;
   color: white;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 500;
-  border-radius: 4px;
   text-decoration: none;
-  transition: background-color 0.2s ease-in-out;
+  border-radius: 4px;
+  transition: background-color 0.2s;
 }
 
 .view-post-link:hover {
-  background-color: #e0e0e0;
+  background: #2980b9;
 }
 
 .auth-container {
@@ -278,6 +286,9 @@ a:hover {
 }
 
 .auth-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -360,4 +371,25 @@ a:hover {
 
 .password-toggle:hover {
   color: #34495e; /* Darken on hover */
+}
+
+.main-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* To vertically center content on the index page */
+.container .content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - 160px); /* Adjust for header/footer */
 }

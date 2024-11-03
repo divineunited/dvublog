@@ -27,10 +27,26 @@ const PostPage = () => {
     }
   }, [id]);
 
-  if (error) return <p>{error}</p>;
-  if (!post) return <p>Loading...</p>;
+  if (error)
+    return (
+      <div className="container">
+        <p>{error}</p>
+      </div>
+    );
+  if (!post)
+    return (
+      <div className="container">
+        <p>Loading...</p>
+      </div>
+    );
 
-  return <Post post={post} />;
+  return (
+    <div className="container">
+      <div className="content-wrapper">
+        <Post post={post} />
+      </div>
+    </div>
+  );
 };
 
 export default PostPage;

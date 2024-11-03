@@ -6,12 +6,14 @@ const SuccessPage = () => {
   const { postId } = router.query;
 
   return (
-    <div>
-      <h1>Post Created Successfully!</h1>
-      <div style={{ textAlign: "center" }}>
-        <Link href={`/posts/${postId}`} className="view-post-link">
-          View Post
-        </Link>
+    <div className="container">
+      <div className="content-wrapper">
+        <h1>Post Created Successfully!</h1>
+        <div style={{ textAlign: "center" }}>
+          <Link href={`/posts/${postId}`} className="view-post-link">
+            View Post
+          </Link>
+        </div>
       </div>
     </div>
   );

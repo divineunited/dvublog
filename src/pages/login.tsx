@@ -33,42 +33,44 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="auth-container">
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleSubmit} className="auth-form">
-        <div className="form-group">
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <div className="password-input-wrapper">
+    <div className="container">
+      <div className="content-wrapper">
+        {error && <p className="error">{error}</p>}
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="form-group">
             <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
               required
             />
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="password-toggle"
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </button>
           </div>
-        </div>
-        <button type="submit" className="auth-button">
-          Login
-        </button>
-      </form>
+          <div className="form-group">
+            <div className="password-input-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                required
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="password-toggle"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+          </div>
+          <button type="submit" className="auth-button">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

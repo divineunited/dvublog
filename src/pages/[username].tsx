@@ -51,20 +51,22 @@ const UserProfilePage = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="container">
-      <h1>Explore {username}&apos;s Corner</h1>
-      {posts.length > 0 ? (
-        <PostList posts={posts} />
-      ) : (
-        <>
-          <p>No posts yet</p>
-          {isOwnProfile && (
-            <Link href="/create-post" className="post-link">
-              Create Your First Post
-            </Link>
-          )}
-        </>
-      )}
+    <div className="main-wrapper">
+      <div className="container">
+        <h1>Explore {username}&apos;s Corner</h1>
+        {posts.length > 0 ? (
+          <PostList posts={posts} />
+        ) : (
+          <>
+            <p>No posts yet</p>
+            {isOwnProfile && (
+              <Link href="/create-post" className="post-link">
+                Create Your First Post
+              </Link>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

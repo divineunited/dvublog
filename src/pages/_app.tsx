@@ -7,9 +7,11 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
-      <Header />
-      <Component {...pageProps} />
-      <Footer />
+      <div className="main-wrapper">
+        <Header />
+        <Component {...pageProps} />
+        <Footer />
+      </div>
     </AuthProvider>
   );
 }
