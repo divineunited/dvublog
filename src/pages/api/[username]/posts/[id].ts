@@ -61,7 +61,13 @@ export default async function handler(
         res.status(200).json({ success: true, data: updatedPost });
       } catch (error) {
         console.error("Error updating post:", error);
-        res.status(400).json({ success: false, error: error.message });
+        res.status(400).json({
+          success: false,
+          error:
+            error instanceof Error
+              ? error.message
+              : "An unknown error occurred",
+        });
       }
       break;
     case "DELETE":
