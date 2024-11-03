@@ -39,7 +39,7 @@ const PostPage = () => {
   if (!post)
     return (
       <div className="container">
-        <p>Loading...</p>
+        <p>loading...</p>
       </div>
     );
 
