@@ -100,16 +100,16 @@ export default async function handler(
           }
         }
 
-        const newPost = new Post({
+        const post = await Post.create({
           title,
           summary,
           content,
           primaryImage,
           author: user._id,
+          publishedAt: new Date(),
         });
 
-        await newPost.save();
-        const savedPost = await newPost.populate("author", "username");
+        const savedPost = await post.populate("author", "username");
         res.status(201).json({
           success: true,
           data: savedPost,

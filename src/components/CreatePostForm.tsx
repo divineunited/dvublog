@@ -37,6 +37,7 @@ const CreatePostForm = () => {
     formData.append("title", values.title);
     formData.append("summary", values.summary);
     formData.append("content", values.content);
+    formData.append("publishedAt", new Date().toISOString());
     if (values.primaryImage) {
       formData.append("primaryImage", values.primaryImage);
     }
