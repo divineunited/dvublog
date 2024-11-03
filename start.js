@@ -2,6 +2,8 @@ import { createServer } from 'http';
 import next from 'next';
 import { parse } from 'url';
 import { loadSecrets } from './loadSecrets.mjs';
+import { runMigrations } from './src/lib/migrations.js';
+import connectToDatabase from './src/lib/mongodb.js';
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -10,9 +12,10 @@ const handle = app.getRequestHandler();
 async function start() {
   try {
     await loadSecrets();
-
-    // Explicitly set MONGODB_URI in process.env
-    process.env.MONGODB_URI = process.env.MONGODB_URI;
+    
+    // Connect to database and run migrations
+    await connectToDatabase();
+    await runMigrations();
 
     await app.prepare();
 

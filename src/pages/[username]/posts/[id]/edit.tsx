@@ -9,6 +9,7 @@ interface FormValues {
   title: string;
   summary: string;
   content: string;
+  publishedAt: string;
 }
 
 const EditPostPage = () => {
@@ -20,6 +21,7 @@ const EditPostPage = () => {
     title: "",
     summary: "",
     content: "",
+    publishedAt: "",
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -33,6 +35,9 @@ const EditPostPage = () => {
             title: post.title,
             summary: post.summary,
             content: post.content,
+            publishedAt: post.publishedAt
+              ? new Date(post.publishedAt).toISOString().slice(0, 16)
+              : new Date(post.createdAt).toISOString().slice(0, 16),
           });
           setIsLoading(false);
         })
@@ -57,6 +62,7 @@ const EditPostPage = () => {
       .required("Please provide a title for this post."),
     summary: Yup.string().required("Please provide a summary for this post."),
     content: Yup.string().required("Please provide content for this post."),
+    publishedAt: Yup.date().nullable(),
   });
 
   const handleSubmit = async (values: FormValues) => {
@@ -145,6 +151,22 @@ const EditPostPage = () => {
                 />
                 <ErrorMessage
                   name="content"
+                  component="div"
+                  className="error"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="publishedAt">
+                  Publication Date and Time - UTC Timezone
+                </label>
+                <Field
+                  type="datetime-local"
+                  id="publishedAt"
+                  name="publishedAt"
+                />
+                <ErrorMessage
+                  name="publishedAt"
                   component="div"
                   className="error"
                 />

@@ -39,22 +39,29 @@ export default async function handler(
       break;
     case "PUT":
       try {
-        const post = await Post.findOneAndUpdate(
-          { _id: id, author: user._id },
-          req.body,
+        const { title, content, summary, publishedAt } = req.body;
+
+        const updatedPost = await Post.findByIdAndUpdate(
+          id,
           {
-            new: true,
-            runValidators: true,
-          }
+            $set: {
+              title,
+              content,
+              summary,
+              publishedAt: publishedAt ? new Date(publishedAt) : null,
+            },
+          },
+          { new: true }
         );
 
-        if (!post) {
+        if (!updatedPost) {
           return res.status(404).json({ success: false });
         }
 
-        res.status(200).json({ success: true, data: post });
+        res.status(200).json({ success: true, data: updatedPost });
       } catch (error) {
-        res.status(400).json({ success: false });
+        console.error("Error updating post:", error);
+        res.status(400).json({ success: false, error: error.message });
       }
       break;
     case "DELETE":

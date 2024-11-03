@@ -24,10 +24,20 @@ const PostSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    publishedAt: {
+      type: Date,
+      required: false,
+      default: null,
+    },
   },
   { timestamps: true }
 );
 
-const Post = mongoose.models.Post || mongoose.model("Post", PostSchema);
+let Post;
+try {
+  Post = mongoose.models?.Post || mongoose.model("Post", PostSchema);
+} catch (error) {
+  Post = mongoose.model("Post", PostSchema);
+}
 
 export default Post;
