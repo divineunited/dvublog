@@ -84,22 +84,37 @@ const CreatePostForm = () => {
       {({ isSubmitting, status, setFieldValue }) => (
         <Form className="create-post-form">
           {status && status.error && <p className="error">{status.error}</p>}
-          <div>
+          <div className="form-group">
             <label htmlFor="title">Title</label>
-            <Field type="text" name="title" />
+            <Field
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Enter post title"
+            />
             <ErrorMessage name="title" component="div" className="error" />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="summary">Summary</label>
-            <Field type="text" name="summary" />
+            <Field
+              as="textarea"
+              id="summary"
+              name="summary"
+              placeholder="Enter post summary"
+            />
             <ErrorMessage name="summary" component="div" className="error" />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="content">Content</label>
-            <Field as="textarea" name="content" />
+            <Field
+              as="textarea"
+              id="content"
+              name="content"
+              placeholder="Enter post content"
+            />
             <ErrorMessage name="content" component="div" className="error" />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="primaryImage">Primary Image</label>
             <input
               id="primaryImage"

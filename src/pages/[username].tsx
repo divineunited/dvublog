@@ -60,7 +60,7 @@ const UserProfilePage = () => {
           <>
             <p>no posts yet</p>
             {isOwnProfile && (
-              <Link href="/create-post" className="post-link">
+              <Link href={`/${username}/create-post`} className="post-link">
                 create your first post
               </Link>
             )}

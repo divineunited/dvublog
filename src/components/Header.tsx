@@ -19,7 +19,7 @@ const Header = () => {
         {isLoggedIn ? (
           <>
             <Link href={`/${username}`}>{username}</Link>
-            <Link href="/create-post">create post</Link>
+            <Link href={`/${username}/create-post`}>create post</Link>
             <a href="#" onClick={handleLogout}>
               logout
             </a>

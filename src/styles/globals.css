@@ -201,27 +201,35 @@ a:hover {
 }
 
 .create-post-form {
-  max-width: 800px;
+  width: 100%;
+  max-width: 900px; /* Increased from default */
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .form-group {
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
+  text-align: left;
+  color: #34495e;
 }
 
 .form-group input,
 .form-group textarea {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
+  background-color: white;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  max-width: none;
 }
 
 .form-group textarea {
@@ -229,10 +237,24 @@ a:hover {
   resize: vertical;
 }
 
+.form-group input[type="file"] {
+  padding: 0.5rem;
+  background-color: white;
+  cursor: pointer;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
 .error {
   color: #e74c3c;
   font-size: 0.875rem;
   margin-top: 0.25rem;
+  text-align: left;
 }
 
 .create-post-form input:focus,
@@ -244,18 +266,28 @@ a:hover {
 .create-post-form button {
   display: block;
   width: 100%;
-  padding: 12px;
+  padding: 1rem;
   background-color: #3498db;
   color: white;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  margin-top: 1rem;
 }
 
 .create-post-form button:hover {
   background-color: #2980b9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.create-post-form button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .create-post-form .error {
@@ -388,9 +420,12 @@ a:hover {
 
 .content-wrapper {
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* To vertically center content on the index page */
@@ -435,4 +470,39 @@ a:hover {
 
 .delete-button:hover {
   background-color: #c0392b;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.form-buttons button {
+  flex: 1;
+}
+
+.cancel-button {
+  background-color: #95a5a6 !important;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.cancel-button:hover {
+  background-color: #7f8c8d !important;
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 1rem;
+  }
+
+  .create-post-form {
+    padding: 0;
+  }
 }

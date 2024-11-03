@@ -150,9 +150,18 @@ const EditPostPage = () => {
                 />
               </div>
 
-              <button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Updating..." : "Update Post"}
-              </button>
+              <div className="form-buttons">
+                <button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? "Updating..." : "Update Post"}
+                </button>
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={() => router.push(`/${username}/posts/${id}`)}
+                >
+                  Cancel
+                </button>
+              </div>
             </Form>
           )}
         </Formik>
