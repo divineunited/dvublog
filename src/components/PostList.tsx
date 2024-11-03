@@ -9,6 +9,9 @@ const PostList = ({
     title: string;
     summary: string;
     primaryImage?: string;
+    author: {
+      username: string;
+    };
   }>;
 }) => {
   return (
@@ -16,7 +19,7 @@ const PostList = ({
       {posts.map((post) => (
         <li key={post._id} className="post-list-item">
           {post.primaryImage && (
-            <Link href={`/posts/${post._id}`}>
+            <Link href={`/${post.author.username}/posts/${post._id}`}>
               <div className="post-image-container">
                 <Image
                   src={post.primaryImage}
@@ -27,7 +30,10 @@ const PostList = ({
               </div>
             </Link>
           )}
-          <Link href={`/posts/${post._id}`} className="post-link">
+          <Link
+            href={`/${post.author.username}/posts/${post._id}`}
+            className="post-link"
+          >
             {post.title}
           </Link>
           <p className="post-summary">{post.summary}</p>

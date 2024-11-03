@@ -109,7 +109,11 @@ export default async function handler(
         });
 
         await newPost.save();
-        res.status(201).json({ success: true, data: newPost });
+        const savedPost = await newPost.populate("author", "username");
+        res.status(201).json({
+          success: true,
+          data: savedPost,
+        });
       } catch (error) {
         console.error("Error creating post:", error);
         res.status(400).json({

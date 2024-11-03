@@ -5,18 +5,21 @@ import { useEffect, useState } from "react";
 
 const PostPage = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, username } = router.query;
   const [post, setPost] = useState<{
     title: string;
     content: string;
     primaryImage?: string;
+    author: {
+      username: string;
+    };
   } | null>(null);
-  const [error, setError] = useState<string | null>(null); // Explicitly type error
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (id) {
+    if (id && username) {
       axios
-        .get(`/api/posts/${id}`)
+        .get(`/api/${username}/posts/${id}`)
         .then((response) => {
           setPost(response.data.data);
         })
@@ -25,7 +28,7 @@ const PostPage = () => {
           setError("Post not found");
         });
     }
-  }, [id]);
+  }, [id, username]);
 
   if (error)
     return (

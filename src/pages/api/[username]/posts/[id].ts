@@ -1,5 +1,6 @@
 import connectToDatabase from "@/lib/mongodb";
 import Post from "@/models/Post";
+import User from "@/models/User";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -7,16 +8,25 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const {
-    query: { id },
+    query: { id, username },
     method,
   } = req;
 
   await connectToDatabase();
 
+  // First, find the user
+  const user = await User.findOne({ username });
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found" });
+  }
+
   switch (method) {
     case "GET":
       try {
-        const post = await Post.findById(id);
+        const post = await Post.findOne({
+          _id: id,
+          author: user._id,
+        }).populate("author", "username");
 
         if (!post) {
           return res.status(404).json({ success: false });
@@ -29,10 +39,14 @@ export default async function handler(
       break;
     case "PUT":
       try {
-        const post = await Post.findByIdAndUpdate(id, req.body, {
-          new: true,
-          runValidators: true,
-        });
+        const post = await Post.findOneAndUpdate(
+          { _id: id, author: user._id },
+          req.body,
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
 
         if (!post) {
           return res.status(404).json({ success: false });
@@ -45,9 +59,9 @@ export default async function handler(
       break;
     case "DELETE":
       try {
-        const deletedPost = await Post.deleteOne({ _id: id });
+        const deletedPost = await Post.deleteOne({ _id: id, author: user._id });
 
-        if (!deletedPost) {
+        if (!deletedPost.deletedCount) {
           return res.status(404).json({ success: false });
         }
 

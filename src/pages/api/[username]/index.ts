@@ -19,9 +19,9 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: "User not found" });
       }
-      const posts = await Post.find({ author: user._id }).sort({
-        createdAt: -1,
-      });
+      const posts = await Post.find({ author: user._id })
+        .sort({ createdAt: -1 })
+        .populate("author", "username");
       res.status(200).json({ success: true, data: posts });
     } catch (error) {
       console.error("Error fetching user posts:", error);

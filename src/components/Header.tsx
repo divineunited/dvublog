@@ -5,6 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 const Header = () => {
   const { isLoggedIn, username, logout } = useAuth();
   const router = useRouter();
+  const { username: urlUsername } = router.query;
 
   const handleLogout = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -12,14 +13,12 @@ const Header = () => {
     router.push("/");
   };
 
-  const isIndexPage = router.pathname === "/";
-
   return (
     <header className="header">
       <nav className="nav">
         {isLoggedIn ? (
           <>
-            <Link href={`/${username}`}>Home</Link>
+            <Link href={`/${username}`}>{username}</Link>
             <Link href="/create-post">Create Post</Link>
             <a href="#" onClick={handleLogout}>
               Logout
@@ -27,11 +26,7 @@ const Header = () => {
           </>
         ) : (
           <>
-            {!isIndexPage && (
-              <>
-                <Link href="/">Home</Link>
-              </>
-            )}
+            {urlUsername && <Link href={`/${urlUsername}`}>{urlUsername}</Link>}
           </>
         )}
       </nav>
