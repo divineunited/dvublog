@@ -39,7 +39,7 @@ export default async function handler(
       break;
     case "PUT":
       try {
-        const { title, content, summary, publishedAt } = req.body;
+        const { title, content, summary, publishedAt, isEarly } = req.body;
 
         const updatedPost = await Post.findByIdAndUpdate(
           id,
@@ -49,6 +49,7 @@ export default async function handler(
               content,
               summary,
               publishedAt: publishedAt ? new Date(publishedAt) : null,
+              isEarly,
             },
           },
           { new: true }

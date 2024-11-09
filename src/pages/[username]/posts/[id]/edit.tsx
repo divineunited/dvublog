@@ -10,6 +10,7 @@ interface FormValues {
   summary: string;
   content: string;
   publishedAt: string;
+  isEarly: boolean;
 }
 
 const EditPostPage = () => {
@@ -22,6 +23,7 @@ const EditPostPage = () => {
     summary: "",
     content: "",
     publishedAt: "",
+    isEarly: false,
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -38,6 +40,7 @@ const EditPostPage = () => {
             publishedAt: post.publishedAt
               ? new Date(post.publishedAt).toISOString().slice(0, 16)
               : new Date(post.createdAt).toISOString().slice(0, 16),
+            isEarly: post.isEarly || false,
           });
           setIsLoading(false);
         })
@@ -167,6 +170,18 @@ const EditPostPage = () => {
                 />
                 <ErrorMessage
                   name="publishedAt"
+                  component="div"
+                  className="error"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="isEarly">
+                  <Field type="checkbox" id="isEarly" name="isEarly" />
+                  Mark as Early Access
+                </label>
+                <ErrorMessage
+                  name="isEarly"
                   component="div"
                   className="error"
                 />

@@ -29,6 +29,11 @@ const PostSchema = new mongoose.Schema(
       required: false,
       default: null,
     },
+    isEarly: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   { timestamps: true }
 );

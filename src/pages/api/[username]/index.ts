@@ -21,6 +21,7 @@ export default async function handler(
       }
       const posts = await Post.find({
         author: user._id,
+        $or: [{ isEarly: false }, { isEarly: { $exists: false } }],
       })
         .sort({ publishedAt: -1 })
         .populate("author", "username");

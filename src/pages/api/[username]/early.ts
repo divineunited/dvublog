@@ -19,7 +19,10 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: "User not found" });
       }
-      const posts = await Post.find({ author: user._id })
+      const posts = await Post.find({
+        author: user._id,
+        isEarly: true,
+      })
         .sort({ publishedAt: -1 })
         .populate("author", "username");
       res.status(200).json({ success: true, data: posts });

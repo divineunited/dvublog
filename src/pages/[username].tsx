@@ -38,14 +38,14 @@ const UserProfilePage = ({ username }: UserProfilePageProps) => {
           <Link href={`/${username}/posts`} className="post-link">
             Posts
           </Link>
+          <Link href={`/${username}/early`} className="post-link">
+            Early Posts
+          </Link>
           <Link href={`/${username}/about`} className="post-link">
             About
           </Link>
           <Link href={`/${username}/contact`} className="post-link">
             Contact
-          </Link>
-          <Link href={`/${username}/early`} className="post-link">
-            Early Posts
           </Link>
         </div>
       </div>
