@@ -1,10 +1,34 @@
+import connectToDatabase from "@/lib/mongodb";
+import User from "@/models/User";
+import { GetServerSideProps } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
-const UserProfilePage = () => {
-  const router = useRouter();
-  const { username } = router.query;
+interface UserProfilePageProps {
+  username: string;
+  exists: boolean;
+}
 
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const username = params?.username as string;
+
+  await connectToDatabase();
+  const user = await User.findOne({ username });
+
+  if (!user) {
+    return {
+      notFound: true, // This will automatically show the 404 page
+    };
+  }
+
+  return {
+    props: {
+      username,
+      exists: true,
+    },
+  };
+};
+
+const UserProfilePage = ({ username }: UserProfilePageProps) => {
   return (
     <div className="main-wrapper">
       <div className="container">
