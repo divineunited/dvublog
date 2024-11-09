@@ -36,7 +36,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     pageType: "Home",
   });
 
-  const recentPosts = await Post.find({ author: user._id })
+  const recentPosts = await Post.find({
+    author: user._id,
+    isEarly: { $ne: true },
+  })
     .sort({ createdAt: -1 })
     .limit(8)
     .lean();
