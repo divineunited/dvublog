@@ -161,7 +161,7 @@ const EditPostPage = () => {
 
               <div className="form-group">
                 <label htmlFor="publishedAt">
-                  Publication Date and Time - UTC Timezone
+                  Publication Date and Time - UTC Timezone (used for sort order)
                 </label>
                 <Field
                   type="datetime-local"
@@ -178,7 +178,7 @@ const EditPostPage = () => {
               <div className="form-group">
                 <label htmlFor="isEarly">
                   <Field type="checkbox" id="isEarly" name="isEarly" />
-                  Mark as Early Access
+                  Mark as an Early Post
                 </label>
                 <ErrorMessage
                   name="isEarly"
