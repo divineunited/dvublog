@@ -31,7 +31,9 @@ const UserProfilePage = ({ username }: UserProfilePageProps) => {
   return (
     <div className="main-wrapper">
       <div className="container">
-        <h1>{username}&apos;s homepage</h1>
+        <h1>
+          {username.charAt(0).toUpperCase() + username.slice(1)}&apos;s Homepage
+        </h1>
         <p>Welcome to my corner of the internet!</p>
       </div>
     </div>

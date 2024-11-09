@@ -19,10 +19,12 @@ const Header = () => {
         <div className="nav-left">
           {isLoggedIn ? (
             <>
-              <Link href={`/${username}`}>{username}</Link>
-              <Link href={`/${username}/create-post`}>create post</Link>
+              <Link href={`/${username}`}>
+                {username.charAt(0).toUpperCase() + username.slice(1)}
+              </Link>
+              <Link href={`/${username}/create-post`}>Create Post</Link>
               <a href="#" onClick={handleLogout}>
-                logout
+                Logout
               </a>
             </>
           ) : (

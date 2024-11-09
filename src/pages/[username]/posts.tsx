@@ -53,15 +53,15 @@ const UserPostsPage = () => {
   return (
     <div className="main-wrapper">
       <div className="container">
-        <h1>{username}&apos;s posts</h1>
+        <br></br>
         {posts.length > 0 ? (
           <PostList posts={posts} />
         ) : (
           <>
-            <p>no posts yet</p>
+            <p>No posts yet</p>
             {isOwnProfile && (
               <Link href={`/${username}/create-post`} className="post-link">
-                create your first post
+                Create your first post.
               </Link>
             )}
           </>
