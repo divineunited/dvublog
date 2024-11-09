@@ -16,19 +16,33 @@ const Header = () => {
   return (
     <header className="header">
       <nav className="nav">
-        {isLoggedIn ? (
-          <>
-            <Link href={`/${username}`}>{username}</Link>
-            <Link href={`/${username}/create-post`}>create post</Link>
-            <a href="#" onClick={handleLogout}>
-              logout
-            </a>
-          </>
-        ) : (
-          <>
-            {urlUsername && <Link href={`/${urlUsername}`}>{urlUsername}</Link>}
-          </>
-        )}
+        <div className="nav-left">
+          {isLoggedIn ? (
+            <>
+              <Link href={`/${username}`}>{username}</Link>
+              <Link href={`/${username}/create-post`}>create post</Link>
+              <a href="#" onClick={handleLogout}>
+                logout
+              </a>
+            </>
+          ) : (
+            <>
+              {urlUsername && (
+                <Link href={`/${urlUsername}`}>{urlUsername}</Link>
+              )}
+            </>
+          )}
+        </div>
+        <div className="nav-right">
+          {urlUsername && (
+            <>
+              <Link href={`/${urlUsername}/posts`}>Posts</Link>
+              <Link href={`/${urlUsername}/early`}>Early Posts</Link>
+              <Link href={`/${urlUsername}/about`}>About</Link>
+              <Link href={`/${urlUsername}/contact`}>Contact</Link>
+            </>
+          )}
+        </div>
       </nav>
     </header>
   );
