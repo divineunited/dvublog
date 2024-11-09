@@ -33,7 +33,7 @@ a:hover {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 1rem;
   margin-top: 60px;
   text-align: center;
 }
@@ -458,7 +458,7 @@ a:hover {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -593,4 +593,22 @@ a:hover {
     font-size: 14px;
     padding: 6px 10px;
   }
+}
+
+.recent-posts-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eaeaea;
+}
+
+.view-all-link {
+  display: block;
+  margin-top: 1rem;
+  text-align: right;
+  color: #0070f3;
+  text-decoration: none;
+}
+
+.view-all-link:hover {
+  text-decoration: underline;
 }

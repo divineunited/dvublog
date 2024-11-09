@@ -1,9 +1,12 @@
+import PostList from "@/components/PostList";
 import { useAuth } from "@/contexts/AuthContext";
 import connectToDatabase from "@/lib/mongodb";
+import Post from "@/models/Post";
 import User from "@/models/User";
 import WebEntry from "@/models/WebEntry";
 import axios from "axios";
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 import { useState } from "react";
 
 interface UserProfilePageProps {
@@ -13,6 +16,7 @@ interface UserProfilePageProps {
     title?: string;
     content?: string;
   };
+  recentPosts: any[];
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -32,6 +36,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     pageType: "Home",
   });
 
+  const recentPosts = await Post.find({ author: user._id })
+    .sort({ createdAt: -1 })
+    .limit(8)
+    .lean();
+
   return {
     props: {
       username,
@@ -42,6 +51,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
             content: webEntry.content || null,
           }
         : null,
+      recentPosts: JSON.parse(JSON.stringify(recentPosts)),
     },
   };
 };
@@ -49,6 +59,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 const UserProfilePage = ({
   username,
   initialWebEntry,
+  recentPosts,
 }: UserProfilePageProps) => {
   const { username: currentUser, isLoggedIn } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
@@ -136,25 +147,51 @@ const UserProfilePage = ({
             </div>
           </div>
         ) : (
-          <div className="content-wrapper">
-            {isOwner && (
-              <div className="post-actions">
-                <button onClick={handleEdit} className="edit-button">
-                  edit page
-                </button>
-                <button onClick={handleDelete} className="delete-button">
-                  reset content
-                </button>
-              </div>
-            )}
-            <h1>
-              {title ||
-                `${
-                  username.charAt(0).toUpperCase() + username.slice(1)
-                }'s Homepage`}
-            </h1>
-            <p>{content}</p>
-          </div>
+          <>
+            <div className="content-wrapper">
+              {isOwner && (
+                <div className="post-actions">
+                  <button onClick={handleEdit} className="edit-button">
+                    edit page
+                  </button>
+                  <button onClick={handleDelete} className="delete-button">
+                    reset content
+                  </button>
+                </div>
+              )}
+              <h1>
+                {title ||
+                  `${
+                    username.charAt(0).toUpperCase() + username.slice(1)
+                  }'s Homepage`}
+              </h1>
+              <p>{content}</p>
+            </div>
+
+            <div className="recent-posts-section">
+              <h2>My Recent Posts</h2>
+              {recentPosts.length > 0 ? (
+                <>
+                  <PostList posts={recentPosts} />
+                  <Link href={`/${username}/posts`} className="view-all-link">
+                    View all posts →
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <p>No posts yet</p>
+                  {isOwner && (
+                    <Link
+                      href={`/${username}/create-post`}
+                      className="post-link"
+                    >
+                      Create your first post.
+                    </Link>
+                  )}
+                </>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>
