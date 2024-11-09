@@ -35,7 +35,6 @@ const EarlyPostsPage = () => {
   return (
     <div className="main-wrapper">
       <div className="container">
-        <h1>{username}&apos;s Early Posts</h1>
         {posts.length > 0 ? (
           <PostList posts={posts} />
         ) : (
