@@ -19,14 +19,12 @@ export default async function handler(
           .status(404)
           .json({ success: false, message: "User not found" });
       }
-      const posts = await Post.find({
-        author: user._id,
-      })
+      const posts = await Post.find({ author: user._id })
         .sort({ publishedAt: -1 })
         .populate("author", "username");
       res.status(200).json({ success: true, data: posts });
     } catch (error) {
-      console.error("Error fetching user posts:", error);
+      console.error("Error fetching early posts:", error);
       res.status(500).json({ success: false, message: "Server error" });
     }
   } else {
